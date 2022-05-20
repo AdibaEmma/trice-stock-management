@@ -329,15 +329,21 @@ public class Seller extends javax.swing.JFrame {
 
     private void addSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addSellerMouseClicked
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO sellers values (?,?,?,?)");
-            preparedStatement.setInt(1, Integer.parseInt(sellerId.getText()));
-            preparedStatement.setString(2, sellerName.getText());
-            preparedStatement.setString(3, sellerPassword.getText());
-            preparedStatement.setString(4, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
-            int row = preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Seller Added Successfully");
+            if(sellerId.getText().isEmpty() || sellerName.getText().isEmpty() || sellerPassword.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Missing Field");
+                log.error("Missing field");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO sellers values (?,?,?,?)");
+                preparedStatement.setInt(1, Integer.parseInt(sellerId.getText()));
+                preparedStatement.setString(2, sellerName.getText());
+                preparedStatement.setString(3, sellerPassword.getText());
+                preparedStatement.setString(4, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
+                int row = preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Seller Added Successfully");
+                log.info("Seller Added Successfully");
+            }
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
