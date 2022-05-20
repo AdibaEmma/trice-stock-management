@@ -4,10 +4,13 @@
  */
 package com.aweperi.stockmanagement;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  *
  * @author Emmanuel Adiba
  */
+@Slf4j
 public class Splash extends javax.swing.JFrame {
 
     /**
@@ -112,8 +115,7 @@ public class Splash extends javax.swing.JFrame {
                     splash.progressPercent.setText(i + "%");
                 }
             } catch (Exception ex) {
-                System.out.println(ex.getCause());
-                System.out.println(ex.getCause().getMessage());
+                log.error(ex.getMessage());
             }
         new Login().setVisible(true);
         splash.dispose();
