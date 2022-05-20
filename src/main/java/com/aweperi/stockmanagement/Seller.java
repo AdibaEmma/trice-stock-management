@@ -404,8 +404,10 @@ public class Seller extends javax.swing.JFrame {
                         Objects.requireNonNull(sellerGender.getSelectedItem()) + "'" + " where seller_id=" + sellerId.getText();
                         stmt = conn.createStatement();
                         stmt.executeUpdate(updateQuery);
-                        JOptionPane.showMessageDialog(this, "Seller Updated Successfully");
-                System.out.println("Seller Updated Successfully");
+                        JOptionPane.showMessageDialog(this, "Seller Updated");
+                        System.out.println("Seller Updated Successfully");
+
+                        selectSeller();
                 conn.close();
                 selectSeller();
             }

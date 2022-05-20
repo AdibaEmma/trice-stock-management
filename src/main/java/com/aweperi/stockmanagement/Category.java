@@ -4,6 +4,11 @@
  */
 package com.aweperi.stockmanagement;
 
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import java.sql.*;
+
 /**
  *
  * @author Emmanuel Adiba
@@ -15,8 +20,30 @@ public class Category extends javax.swing.JFrame {
      */
     public Category() {
         initComponents();
+        selectCategories();
     }
 
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+
+    public void selectCategories() {
+        try {
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                    "root", "root");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM ROOT.categories");
+            categoriesTable.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void clearFields() {
+        catId.setText("");
+        catName.setText("");
+        catDescription.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,18 +56,18 @@ public class Category extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        catId = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        catName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        catDescription = new javax.swing.JTextField();
+        addCategory = new javax.swing.JButton();
+        editCategory = new javax.swing.JButton();
+        deleteCategory = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        categoriesTable = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -56,11 +83,11 @@ public class Category extends javax.swing.JFrame {
         jLabel11.setText("MANAGE CATEGORIES");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTextField2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 102, 0));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        catId.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        catId.setForeground(new java.awt.Color(255, 102, 0));
+        catId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                catIdActionPerformed(evt);
             }
         });
 
@@ -69,11 +96,11 @@ public class Category extends javax.swing.JFrame {
         jLabel4.setText("CATID");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTextField3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(255, 102, 0));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        catName.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        catName.setForeground(new java.awt.Color(255, 102, 0));
+        catName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                catNameActionPerformed(evt);
             }
         });
 
@@ -87,55 +114,60 @@ public class Category extends javax.swing.JFrame {
         jLabel7.setText("DESCRIPTION");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTextField4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(255, 102, 0));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        catDescription.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        catDescription.setForeground(new java.awt.Color(255, 102, 0));
+        catDescription.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                catDescriptionActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 102, 0));
-        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Add");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addCategory.setBackground(new java.awt.Color(255, 102, 0));
+        addCategory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        addCategory.setForeground(new java.awt.Color(255, 255, 255));
+        addCategory.setText("Add");
+        addCategory.setBorder(null);
+        addCategory.setBorderPainted(false);
+        addCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addCategoryMouseClicked(evt);
+            }
+        });
+        addCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addCategoryActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 102, 0));
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Edit");
-        jButton2.setBorder(null);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setMaximumSize(new java.awt.Dimension(60, 30));
-        jButton2.setMinimumSize(new java.awt.Dimension(60, 30));
+        editCategory.setBackground(new java.awt.Color(255, 102, 0));
+        editCategory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        editCategory.setForeground(new java.awt.Color(255, 255, 255));
+        editCategory.setText("Edit");
+        editCategory.setBorder(null);
+        editCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editCategory.setMaximumSize(new java.awt.Dimension(60, 30));
+        editCategory.setMinimumSize(new java.awt.Dimension(60, 30));
 
-        jButton3.setBackground(new java.awt.Color(255, 102, 0));
-        jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Delete");
-        jButton3.setBorder(null);
-        jButton3.setBorderPainted(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteCategory.setBackground(new java.awt.Color(255, 102, 0));
+        deleteCategory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        deleteCategory.setForeground(new java.awt.Color(255, 255, 255));
+        deleteCategory.setText("Delete");
+        deleteCategory.setBorder(null);
+        deleteCategory.setBorderPainted(false);
+        deleteCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton4.setBackground(new java.awt.Color(255, 102, 0));
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Clear");
-        jButton4.setBorder(null);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setMaximumSize(new java.awt.Dimension(60, 30));
-        jButton4.setMinimumSize(new java.awt.Dimension(60, 30));
+        clearBtn.setBackground(new java.awt.Color(255, 102, 0));
+        clearBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        clearBtn.setForeground(new java.awt.Color(255, 255, 255));
+        clearBtn.setText("Clear");
+        clearBtn.setBorder(null);
+        clearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        clearBtn.setMaximumSize(new java.awt.Dimension(60, 30));
+        clearBtn.setMinimumSize(new java.awt.Dimension(60, 30));
 
-        jTable1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        categoriesTable.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        categoriesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -147,12 +179,12 @@ public class Category extends javax.swing.JFrame {
                 "ID", "NAME", "DESCRIPTION"
             }
         ));
-        jTable1.setGridColor(new java.awt.Color(255, 102, 0));
-        jTable1.setRowHeight(25);
-        jTable1.setSelectionBackground(new java.awt.Color(255, 102, 0));
-        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jTable1.setShowGrid(false);
-        jScrollPane1.setViewportView(jTable1);
+        categoriesTable.setGridColor(new java.awt.Color(255, 102, 0));
+        categoriesTable.setRowHeight(25);
+        categoriesTable.setSelectionBackground(new java.awt.Color(255, 102, 0));
+        categoriesTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        categoriesTable.setShowGrid(false);
+        jScrollPane1.setViewportView(categoriesTable);
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 102, 0));
@@ -170,26 +202,26 @@ public class Category extends javax.swing.JFrame {
                             .addGap(89, 89, 89)
                             .addComponent(jLabel4)
                             .addGap(29, 29, 29)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(catId, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(120, 120, 120)
                             .addComponent(jLabel6)
                             .addGap(29, 29, 29)
-                            .addComponent(jTextField3))
+                            .addComponent(catName))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(99, 99, 99)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(166, 166, 166)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(32, 32, 32)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel12)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(editCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(34, 34, 34)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(deleteCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(38, 38, 38)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(316, 316, 316)
                         .addComponent(jLabel11)))
@@ -198,7 +230,7 @@ public class Category extends javax.swing.JFrame {
                 .addGap(275, 275, 275)
                 .addComponent(jLabel7)
                 .addGap(26, 26, 26)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(catDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -208,22 +240,22 @@ public class Category extends javax.swing.JFrame {
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catId, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(catName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(catDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(deleteCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -279,21 +311,45 @@ public class Category extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void catIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catIdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_catIdActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void catNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_catNameActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void catDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catDescriptionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_catDescriptionActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addCategoryActionPerformed
+
+    private void addCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCategoryMouseClicked
+        try {
+            if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Add Missing Field");
+                System.out.println("Add Missing field");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO categories values (?,?,?)");
+                preparedStatement.setInt(1, Integer.parseInt(catId.getText()));
+                preparedStatement.setString(2, catName.getText());
+                preparedStatement.setString(3, catDescription.getText());
+                int row = preparedStatement.executeUpdate();
+                clearFields();
+                JOptionPane.showMessageDialog(this, "Category Added Successfully");
+                System.out.println("Category Added Successfully");
+                conn.close();
+                selectCategories();
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_addCategoryMouseClicked
 
     /**
      * @param args the command line arguments
@@ -331,10 +387,14 @@ public class Category extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton addCategory;
+    private javax.swing.JTextField catDescription;
+    private javax.swing.JTextField catId;
+    private javax.swing.JTextField catName;
+    private javax.swing.JTable categoriesTable;
+    private javax.swing.JButton clearBtn;
+    private javax.swing.JButton deleteCategory;
+    private javax.swing.JButton editCategory;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel4;
@@ -344,9 +404,5 @@ public class Category extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
