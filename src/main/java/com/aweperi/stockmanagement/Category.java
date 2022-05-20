@@ -7,7 +7,9 @@ package com.aweperi.stockmanagement;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.Objects;
 
 /**
  *
@@ -148,6 +150,11 @@ public class Category extends javax.swing.JFrame {
         editCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editCategory.setMaximumSize(new java.awt.Dimension(60, 30));
         editCategory.setMinimumSize(new java.awt.Dimension(60, 30));
+        editCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editCategoryMouseClicked(evt);
+            }
+        });
 
         deleteCategory.setBackground(new java.awt.Color(255, 102, 0));
         deleteCategory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -156,6 +163,11 @@ public class Category extends javax.swing.JFrame {
         deleteCategory.setBorder(null);
         deleteCategory.setBorderPainted(false);
         deleteCategory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteCategoryMouseClicked(evt);
+            }
+        });
 
         clearBtn.setBackground(new java.awt.Color(255, 102, 0));
         clearBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -165,6 +177,16 @@ public class Category extends javax.swing.JFrame {
         clearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearBtn.setMaximumSize(new java.awt.Dimension(60, 30));
         clearBtn.setMinimumSize(new java.awt.Dimension(60, 30));
+        clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clearBtnMouseClicked(evt);
+            }
+        });
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBtnActionPerformed(evt);
+            }
+        });
 
         categoriesTable.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         categoriesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -184,6 +206,11 @@ public class Category extends javax.swing.JFrame {
         categoriesTable.setSelectionBackground(new java.awt.Color(255, 102, 0));
         categoriesTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         categoriesTable.setShowGrid(false);
+        categoriesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                categoriesTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(categoriesTable);
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -350,6 +377,67 @@ public class Category extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_addCategoryMouseClicked
+
+    private void editCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editCategoryMouseClicked
+        try {
+            if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Missing Field");
+                System.out.println("Missing field");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                String updateQuery = "UPDATE ROOT.categories SET cat_name ='" + catName.getText() +
+                        "'"+",cat_desc='" + catDescription.getText() +"'" + " where cat_id=" + catId.getText();
+                stmt = conn.createStatement();
+                stmt.executeUpdate(updateQuery);
+                clearFields();
+                JOptionPane.showMessageDialog(this, "Category Updated");
+                System.out.println("Category Updated");
+                conn.close();
+                selectCategories();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_editCategoryMouseClicked
+
+    private void deleteCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteCategoryMouseClicked
+        try {
+            if(catId.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Add Category To Be Deleted");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                String cId = catId.getText();
+                String deleteQuery = "DELETE FROM ROOT.categories WHERE cat_id = " + cId;
+                stmt = conn.createStatement();
+                stmt.executeUpdate(deleteQuery);
+                this.clearFields();
+                selectCategories();
+                JOptionPane.showMessageDialog(this, "Category Deleted Successfully");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_deleteCategoryMouseClicked
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        this.clearFields();
+    }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void categoriesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoriesTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel) categoriesTable.getModel();
+        int index = categoriesTable.getSelectedRow();
+        catId.setText(model.getValueAt(index, 0).toString());
+        catName.setText(model.getValueAt(index, 1).toString());
+        catDescription.setText(model.getValueAt(index, 2).toString());
+    }//GEN-LAST:event_categoriesTableMouseClicked
+
+
+    private void clearBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBtnMouseClicked
+
 
     /**
      * @param args the command line arguments

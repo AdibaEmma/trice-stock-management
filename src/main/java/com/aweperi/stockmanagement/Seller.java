@@ -383,7 +383,6 @@ public class Seller extends javax.swing.JFrame {
     }//GEN-LAST:event_addSellerMouseClicked
 
     private void sellersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellersTableMouseClicked
-        // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) sellersTable.getModel();
         int index = sellersTable.getSelectedRow();
         sellerId.setText(model.getValueAt(index, 0).toString());
@@ -406,8 +405,6 @@ public class Seller extends javax.swing.JFrame {
                         stmt.executeUpdate(updateQuery);
                         JOptionPane.showMessageDialog(this, "Seller Updated");
                         System.out.println("Seller Updated Successfully");
-
-                        selectSeller();
                 conn.close();
                 selectSeller();
             }

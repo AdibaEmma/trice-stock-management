@@ -312,6 +312,9 @@
                   <Dimension value="[60, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editCategoryMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteCategory">
               <Properties>
@@ -333,6 +336,9 @@
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="deleteCategoryMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="clearBtn">
               <Properties>
@@ -359,6 +365,10 @@
                   <Dimension value="[60, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clearBtnMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearBtnActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -413,6 +423,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="categoriesTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
