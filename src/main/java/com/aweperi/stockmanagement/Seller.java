@@ -5,19 +5,16 @@
 package com.aweperi.stockmanagement;
 
 import lombok.extern.slf4j.Slf4j;
+import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Objects;
 
 /**
  *
  * @author Emmanuel Adiba
  */
-@Slf4j
 public class Seller extends javax.swing.JFrame {
 
     /**
@@ -25,10 +22,11 @@ public class Seller extends javax.swing.JFrame {
      */
     public Seller() {
         initComponents();
+        selectSeller();
     }
     Connection conn = null;
     Statement stmt = null;
-
+    ResultSet rs = null;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -311,6 +309,18 @@ public class Seller extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void selectSeller() {
+        try {
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                    "root", "root");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM ROOT.sellers");
+            sellersTable.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     private void addSellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSellerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addSellerActionPerformed
@@ -331,7 +341,7 @@ public class Seller extends javax.swing.JFrame {
         try {
             if(sellerId.getText().isEmpty() || sellerName.getText().isEmpty() || sellerPassword.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Missing Field");
-                log.error("Missing field");
+                System.out.println("Missing field");
             } else {
                 conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
                         "root", "root");
@@ -342,10 +352,12 @@ public class Seller extends javax.swing.JFrame {
                 preparedStatement.setString(4, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
                 int row = preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Seller Added Successfully");
-                log.info("Seller Added Successfully");
+                System.out.println("Seller Added Successfully");
+                conn.close();
+                selectSeller();
             }
         } catch (Exception ex) {
-            log.error(ex.getMessage());
+            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_addSellerMouseClicked
 
