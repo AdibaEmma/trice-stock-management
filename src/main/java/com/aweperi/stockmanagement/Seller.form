@@ -356,6 +356,9 @@
                   <Dimension value="[60, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editSellerMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="deleteSeller">
               <Properties>
@@ -377,6 +380,9 @@
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="deleteSellerMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="clearBtn">
               <Properties>
@@ -403,6 +409,9 @@
                   <Dimension value="[60, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clearBtnMouseClicked"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -463,6 +472,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sellersTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

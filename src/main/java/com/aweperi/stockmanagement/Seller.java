@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.Objects;
 
@@ -138,6 +139,11 @@ public class Seller extends javax.swing.JFrame {
         editSeller.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editSeller.setMaximumSize(new java.awt.Dimension(60, 30));
         editSeller.setMinimumSize(new java.awt.Dimension(60, 30));
+        editSeller.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editSellerMouseClicked(evt);
+            }
+        });
 
         deleteSeller.setBackground(new java.awt.Color(255, 102, 0));
         deleteSeller.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -146,6 +152,11 @@ public class Seller extends javax.swing.JFrame {
         deleteSeller.setBorder(null);
         deleteSeller.setBorderPainted(false);
         deleteSeller.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteSeller.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteSellerMouseClicked(evt);
+            }
+        });
 
         clearBtn.setBackground(new java.awt.Color(255, 102, 0));
         clearBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -155,6 +166,11 @@ public class Seller extends javax.swing.JFrame {
         clearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearBtn.setMaximumSize(new java.awt.Dimension(60, 30));
         clearBtn.setMinimumSize(new java.awt.Dimension(60, 30));
+        clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clearBtnMouseClicked(evt);
+            }
+        });
 
         sellersTable.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         sellersTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -174,6 +190,11 @@ public class Seller extends javax.swing.JFrame {
         sellersTable.setSelectionBackground(new java.awt.Color(255, 102, 0));
         sellersTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         sellersTable.setShowGrid(false);
+        sellersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sellersTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(sellersTable);
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -360,6 +381,66 @@ public class Seller extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_addSellerMouseClicked
+
+    private void sellersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellersTableMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) sellersTable.getModel();
+        int index = sellersTable.getSelectedRow();
+        sellerId.setText(model.getValueAt(index, 0).toString());
+        sellerName.setText(model.getValueAt(index, 1).toString());
+        sellerPassword.setText(model.getValueAt(index, 2).toString());
+    }//GEN-LAST:event_sellersTableMouseClicked
+
+    private void editSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editSellerMouseClicked
+        try {
+            if(sellerId.getText().isEmpty() || sellerName.getText().isEmpty() || sellerPassword.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Missing Field");
+                System.out.println("Missing field");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                String updateQuery = "UPDATE ROOT.sellers SET seller_name ='" + sellerName.getText() +
+                        "'"+",seller_password='" + sellerPassword.getText() +"'"+", seller_gender='" +
+                        Objects.requireNonNull(sellerGender.getSelectedItem()) + "'" + " where seller_id=" + sellerId.getText();
+                        stmt = conn.createStatement();
+                        stmt.executeUpdate(updateQuery);
+                        JOptionPane.showMessageDialog(this, "Seller Updated Successfully");
+                System.out.println("Seller Updated Successfully");
+                conn.close();
+                selectSeller();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_editSellerMouseClicked
+
+    private void deleteSellerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteSellerMouseClicked
+        try {
+            if(sellerId.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Add Seller To Be Deleted");
+            } else {
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                        "root", "root");
+                String sId = sellerId.getText();
+                String deleteQuery = "DELETE FROM ROOT.sellers WHERE seller_id = " + sId;
+                stmt = conn.createStatement();
+                stmt.executeUpdate(deleteQuery);
+                sellerId.setText("");
+                sellerName.setText("");
+                sellerPassword.setText("");
+                selectSeller();
+                JOptionPane.showMessageDialog(this, "Seller Deleted Successfully");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_deleteSellerMouseClicked
+
+    private void clearBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBtnMouseClicked
+        sellerId.setText("");
+        sellerName.setText("");
+        sellerPassword.setText("");
+    }//GEN-LAST:event_clearBtnMouseClicked
 
     /**
      * @param args the command line arguments
