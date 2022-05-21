@@ -32,7 +32,6 @@ public class Sales extends javax.swing.JFrame {
     private Double grandTotal = 0.0;
     private Integer availableQuantity;
     private Integer productId;
-    private Integer remainingQuantity;
 
     public void selectProducts() {
         try {
@@ -45,19 +44,7 @@ public class Sales extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }
- public void update() {
-    try {
-        conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB","root", "root");
-        String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity +  " where product_id=" + productId;
-        stmt = conn.createStatement();
-        stmt.executeUpdate(updateQuery);
-        stmt.close();
-        conn.close();
-        selectProducts();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
- }
+
     private void clearFields() {
         billingId.setText("");
         productName.setText("");
@@ -502,28 +489,42 @@ public class Sales extends javax.swing.JFrame {
                 i++;
                 Double totalPrice = price * Integer.parseInt(billProductQuantity.getText());
                 grandTotal = grandTotal + totalPrice;
+                Integer remainingQuantity;
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
                 if (i == 1) {
                     billText.setText(
-                            billText.getText() + "     ==========Trice Aggrey Enterprise==========\n" + "     ==========" +
-                                    LocalDateTime.now().format(dateTimeFormatter) + "============" + "\n" +
-                            " NUM      PRODUCT      PRICE      QUANTITY      TOTAL\n"+
-                            "      " + i + "            " + productName.getText() + "            " +
-                            price + "               " + billProductQuantity.getText() + "             " + totalPrice + "\n"
+                            billText.getText() + "     ===========Trice Aggrey Enterprise============\n" + "     ===========" +
+                                    LocalDateTime.now().format(dateTimeFormatter) + "==============" + "\n" +
+                            " NUM       PRODUCT        PRICE       QUANTITY       TOTAL\n"+
+                            "   " + i + "         " + productName.getText() + "                 " +
+                            price + "              " + billProductQuantity.getText() + "                " + totalPrice + "\n"
                     );
                 } else {
                     billText.setText(
-                            billText.getText() + "      " +  i + "            " + productName.getText() + "            " +
-                                    price + "               " + billProductQuantity.getText() + "             " + totalPrice + "\n"
+                            billText.getText() + "   " + i + "         " + productName.getText() + "                 " +
+                                    price + "              " + billProductQuantity.getText() + "                " + totalPrice + "\n"
                     );
                 }
-
+                update();
                 grandTotalLb.setText("GH₵" + grandTotal);
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_addProductMouseClicked
+
+    private void update() throws SQLException {
+        Integer remainingQuantity;
+        conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                "root", "root");
+        remainingQuantity = availableQuantity - Integer.parseInt(billProductQuantity.getText());
+        String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity + " WHERE product_id=" + productId;
+        stmt = conn.createStatement();
+        stmt.executeUpdate(updateQuery);
+        stmt.close();
+        conn.close();
+        selectProducts();
+    }
 
     private void addProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProductActionPerformed
         // TODO add your handling code here:
@@ -564,7 +565,6 @@ public class Sales extends javax.swing.JFrame {
         productId = Integer.valueOf((model.getValueAt(index, 0).toString()));
         productName.setText(model.getValueAt(index, 1).toString());
         availableQuantity = Integer.valueOf(model.getValueAt(index, 2).toString());
-        remainingQuantity = availableQuantity - Integer.parseInt(billProductQuantity.getText());
         price = Double.valueOf(model.getValueAt(index, 3).toString());
 //        productQuantity.setText(model.getValueAt(index, 2).toString());
 //        productPrice.setText(model.getValueAt(index, 3).toString());
