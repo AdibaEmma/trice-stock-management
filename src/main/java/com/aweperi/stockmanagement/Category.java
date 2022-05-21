@@ -9,7 +9,6 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.Objects;
 
 /**
  *

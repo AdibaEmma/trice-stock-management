@@ -51,7 +51,7 @@ public class Seller extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         sellersTable = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        closeBtn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -285,10 +285,15 @@ public class Seller extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("X");
-        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        closeBtn.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        closeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        closeBtn.setText("X");
+        closeBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,17 +303,17 @@ public class Seller extends javax.swing.JFrame {
                 .addGap(155, 155, 155)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(983, 983, 983)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -441,6 +446,10 @@ public class Seller extends javax.swing.JFrame {
         sellerPassword.setText("");
     }//GEN-LAST:event_clearBtnMouseClicked
 
+    private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_closeBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -479,12 +488,12 @@ public class Seller extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addSeller;
     private javax.swing.JButton clearBtn;
+    private javax.swing.JLabel closeBtn;
     private javax.swing.JButton deleteSeller;
     private javax.swing.JButton editSeller;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
