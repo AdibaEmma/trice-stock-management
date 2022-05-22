@@ -70,10 +70,10 @@ public class Category extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         categoriesTable = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         sellerLink = new javax.swing.JLabel();
         productsLink = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JLabel();
+        closeBtn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -292,12 +292,6 @@ public class Category extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("X");
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
         sellerLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         sellerLink.setForeground(new java.awt.Color(255, 255, 255));
         sellerLink.setText("SELLER");
@@ -331,6 +325,16 @@ public class Category extends javax.swing.JFrame {
             }
         });
 
+        closeBtn.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        closeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        closeBtn.setText("X");
+        closeBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -347,18 +351,14 @@ public class Category extends javax.swing.JFrame {
                             .addComponent(productsLink))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closeBtn)
+                .addGap(8, 8, 8))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addGap(25, 25, 25)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -369,6 +369,9 @@ public class Category extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(closeBtn)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -423,6 +426,14 @@ public class Category extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_addCategoryMouseClicked
 
@@ -446,6 +457,14 @@ public class Category extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_editCategoryMouseClicked
 
@@ -466,6 +485,14 @@ public class Category extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_deleteCategoryMouseClicked
 
@@ -500,6 +527,10 @@ public class Category extends javax.swing.JFrame {
         new Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutBtnMouseClicked
+
+    private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_closeBtnMouseClicked
 
 
     /**
@@ -544,12 +575,12 @@ public class Category extends javax.swing.JFrame {
     private javax.swing.JTextField catName;
     private javax.swing.JTable categoriesTable;
     private javax.swing.JButton clearBtn;
+    private javax.swing.JLabel closeBtn;
     private javax.swing.JButton deleteCategory;
     private javax.swing.JButton editCategory;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

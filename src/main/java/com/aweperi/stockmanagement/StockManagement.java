@@ -12,6 +12,5 @@ package com.aweperi.stockmanagement;
 public class StockManagement {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
     }
 }

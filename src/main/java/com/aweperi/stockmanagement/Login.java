@@ -187,9 +187,18 @@ public class Login extends javax.swing.JFrame {
         jLabel11.setText("LOGIN");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        password.setText("jPasswordField1");
+        password.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        password.setForeground(new java.awt.Color(255, 102, 0));
+        password.setCaretColor(new java.awt.Color(255, 102, 0));
+        password.setEchoChar('*');
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
 
         viewPassword.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        viewPassword.setForeground(new java.awt.Color(255, 102, 0));
         viewPassword.setText("View Password");
         viewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,6 +344,14 @@ public class Login extends javax.swing.JFrame {
             }
             } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_loginMouseClicked
 
@@ -345,6 +362,10 @@ public class Login extends javax.swing.JFrame {
             password.setEchoChar('*');
         }
     }//GEN-LAST:event_viewPasswordActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments

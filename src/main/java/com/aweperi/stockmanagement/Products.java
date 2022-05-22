@@ -36,9 +36,19 @@ public class Products extends javax.swing.JFrame {
                     "root", "root");
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM ROOT.products");
+
             productsTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+        finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -54,6 +64,14 @@ public class Products extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -371,7 +389,7 @@ public class Products extends javax.swing.JFrame {
 
         sellerLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         sellerLink.setForeground(new java.awt.Color(255, 255, 255));
-        sellerLink.setText("SELLER");
+        sellerLink.setText("SELLERS");
         sellerLink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         sellerLink.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         sellerLink.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -516,6 +534,14 @@ public class Products extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_addProductMouseClicked
 
@@ -536,6 +562,7 @@ public class Products extends javax.swing.JFrame {
                 clearFields();
                 JOptionPane.showMessageDialog(this, "Product Updated");
                 System.out.println("Product Updated");
+                stmt.close();
                 conn.close();
                 selectProducts();
             }
@@ -561,6 +588,14 @@ public class Products extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_deleteProductMouseClicked
 
