@@ -527,10 +527,15 @@ public class Sales extends javax.swing.JFrame {
         Integer remainingQuantity;
         conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
                 "root", "root");
-        remainingQuantity = availableQuantity - Integer.parseInt(billProductQuantity.getText());
-        String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity + " WHERE product_id=" + productId;
         stmt = conn.createStatement();
-        stmt.executeUpdate(updateQuery);
+        rs = stmt.executeQuery("SELECT * FROM ROOT.products WHERE PRODUCT_ID=" +productId);
+        if (rs.next()) {
+        int currentQuantity = rs.getInt("PRODUCT_QUANTITY");
+            remainingQuantity = currentQuantity - Integer.parseInt(billProductQuantity.getText());
+            String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity + " WHERE product_id=" + productId;
+            stmt = conn.createStatement();
+            stmt.executeUpdate(updateQuery);
+        }
         stmt.close();
         conn.close();
         selectProducts();
