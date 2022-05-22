@@ -200,7 +200,7 @@ public class UpdateAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
-        System.exit(0);
+        new Products().setVisible(true);
     }//GEN-LAST:event_closeBtnMouseClicked
 
     private void updateAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateAdminMouseClicked

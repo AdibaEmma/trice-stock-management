@@ -64,7 +64,7 @@
                           <Component id="logoutBtn" min="-2" pref="82" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="30" max="32767" attributes="0"/>
               </Group>

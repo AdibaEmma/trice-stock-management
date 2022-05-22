@@ -171,6 +171,11 @@ public class Login extends javax.swing.JFrame {
         clearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearBtn.setMaximumSize(new java.awt.Dimension(60, 30));
         clearBtn.setMinimumSize(new java.awt.Dimension(60, 30));
+        clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clearBtnMouseClicked(evt);
+            }
+        });
 
         closeBtn.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         closeBtn.setForeground(new java.awt.Color(255, 102, 0));
@@ -374,6 +379,11 @@ public class Login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_loginActionPerformed
+
+    private void clearBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBtnMouseClicked
+        username.setText("");
+        password.setText("");
+    }//GEN-LAST:event_clearBtnMouseClicked
 
     /**
      * @param args the command line arguments
