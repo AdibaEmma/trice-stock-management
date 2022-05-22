@@ -41,6 +41,7 @@ public class Products extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     private void getCategories() {
         try {
             conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
@@ -55,6 +56,7 @@ public class Products extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     private void clearFields() {
         productId.setText("");
         productName.setText("");
