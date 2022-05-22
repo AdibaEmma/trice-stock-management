@@ -82,8 +82,6 @@ public class Sales extends javax.swing.JFrame {
         billText = new javax.swing.JTextArea();
         grandTotalLb = new javax.swing.JLabel();
         logoutBtn = new javax.swing.JLabel();
-        categoriesLink = new javax.swing.JLabel();
-        productsLink = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -159,9 +157,12 @@ public class Sales extends javax.swing.JFrame {
         addProduct.setBorderPainted(false);
         addProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addProduct.addMouseListener(new java.awt.event.MouseAdapter() {
-            @SneakyThrows
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addProductMouseClicked(evt);
+                try {
+                    addProductMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
         addProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -362,6 +363,7 @@ public class Sales extends javax.swing.JFrame {
         logoutBtn.setFont(new java.awt.Font("Century Gothic", 2, 18)); // NOI18N
         logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
         logoutBtn.setText("Logout");
+        logoutBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -369,72 +371,42 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        categoriesLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
-        categoriesLink.setForeground(new java.awt.Color(255, 255, 255));
-        categoriesLink.setText("CATEGORIES");
-        categoriesLink.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        categoriesLink.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                categoriesLinkMouseClicked(evt);
-            }
-        });
-
-        productsLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
-        productsLink.setForeground(new java.awt.Color(255, 255, 255));
-        productsLink.setText("PRODUCTS");
-        productsLink.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        productsLink.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                productsLinkMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(logoutBtn)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(productsLink)
-                                .addComponent(categoriesLink))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addComponent(categoriesLink)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(productsLink)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(20, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,7 +461,6 @@ public class Sales extends javax.swing.JFrame {
                 i++;
                 Double totalPrice = price * Integer.parseInt(billProductQuantity.getText());
                 grandTotal = grandTotal + totalPrice;
-                Integer remainingQuantity;
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
                 if (i == 1) {
                     billText.setText(
@@ -583,16 +554,6 @@ public class Sales extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_logoutBtnMouseClicked
 
-    private void categoriesLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoriesLinkMouseClicked
-        new Category().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_categoriesLinkMouseClicked
-
-    private void productsLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsLinkMouseClicked
-        new Products().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_productsLinkMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -633,7 +594,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JTextField billProductQuantity;
     private javax.swing.JTextArea billText;
     private javax.swing.JTextField billingId;
-    private javax.swing.JLabel categoriesLink;
     private javax.swing.JButton clearBtn;
     private javax.swing.JLabel closeBtn;
     private javax.swing.JButton deleteProduct;
@@ -652,7 +612,6 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton printBill;
     private javax.swing.JComboBox<String> productCategory;
     private javax.swing.JTextField productName;
-    private javax.swing.JLabel productsLink;
     private javax.swing.JTable productsTable;
     // End of variables declaration//GEN-END:variables
 }

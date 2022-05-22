@@ -115,6 +115,7 @@ public class UpdateAdmin extends javax.swing.JFrame {
         closeBtn.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         closeBtn.setForeground(new java.awt.Color(255, 255, 255));
         closeBtn.setText("X");
+        closeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         closeBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

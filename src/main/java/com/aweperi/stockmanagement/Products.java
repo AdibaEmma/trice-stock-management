@@ -23,6 +23,7 @@ public class Products extends javax.swing.JFrame {
     public Products() {
         initComponents();
         selectProducts();
+        getCategories();
     }
 
     Connection conn = null;
@@ -36,11 +37,24 @@ public class Products extends javax.swing.JFrame {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM ROOT.products");
             productsTable.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
-
+    private void getCategories() {
+        try {
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
+                    "root", "root");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM ROOT.CATEGORIES");
+            while (rs.next()) {
+                String category = rs.getString("CAT_NAME");
+                productCategory.addItem(category);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
     private void clearFields() {
         productId.setText("");
         productName.setText("");
@@ -148,7 +162,6 @@ public class Products extends javax.swing.JFrame {
 
         productCategory.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         productCategory.setForeground(new java.awt.Color(255, 102, 0));
-        productCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Beverage", "Hard Drink" }));
 
         addProduct.setBackground(new java.awt.Color(255, 102, 0));
         addProduct.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -298,7 +311,7 @@ public class Products extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(155, 155, 155)
                         .addComponent(jLabel11)))
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,6 +370,7 @@ public class Products extends javax.swing.JFrame {
         sellerLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         sellerLink.setForeground(new java.awt.Color(255, 255, 255));
         sellerLink.setText("SELLER");
+        sellerLink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         sellerLink.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         sellerLink.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -367,6 +381,7 @@ public class Products extends javax.swing.JFrame {
         categoriesLink.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         categoriesLink.setForeground(new java.awt.Color(255, 255, 255));
         categoriesLink.setText("CATEGORIES");
+        categoriesLink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         categoriesLink.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         categoriesLink.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -377,6 +392,7 @@ public class Products extends javax.swing.JFrame {
         logoutBtn.setFont(new java.awt.Font("Century Gothic", 2, 18)); // NOI18N
         logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
         logoutBtn.setText("Logout");
+        logoutBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         logoutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -388,10 +404,6 @@ public class Products extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(953, 953, 953)
-                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -401,15 +413,19 @@ public class Products extends javax.swing.JFrame {
                                 .addComponent(sellerLink)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(17, Short.MAX_VALUE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(categoriesLink)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                        .addGap(12, 12, 12))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(closeBtn)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -425,14 +441,16 @@ public class Products extends javax.swing.JFrame {
                         .addComponent(categoriesLink)
                         .addGap(270, 270, 270)
                         .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
