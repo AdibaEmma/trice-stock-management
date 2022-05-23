@@ -14,6 +14,8 @@ import java.util.Objects;
  */
 public class Login extends javax.swing.JFrame {
 
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
+
     public Login() {
         initComponents();
         password.setText("");
@@ -125,11 +127,7 @@ public class Login extends javax.swing.JFrame {
 
         username.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         username.setForeground(new java.awt.Color(255, 102, 0));
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
+        username.addActionListener(this::usernameActionPerformed);
 
         roleDropdown.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         roleDropdown.setForeground(new java.awt.Color(255, 102, 0));
@@ -324,13 +322,12 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_closeBtnMouseClicked
 
     private void loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginMouseClicked
-        String sellerLoginQuery = "SELECT * FROM ROOT.sellers WHERE SELLER_NAME='" + username.getText() +"'" +
-                " and SELLER_PASSWORD='" + password.getText() + "'";
-        String adminLoginQuery = "SELECT * FROM ROOT.ADMINS WHERE ADMIN_NAME='" + username.getText() +"'" +
-                " and ADMIN_PASSWORD='" + password.getText() + "'";
+        String sellerLoginQuery = "SELECT s FROM root.sellers as s WHERE s.SELLER_NAME='" + username.getText() +"'" +
+                " and s.SELLER_PASSWORD='" + password.getText() + "'";
+        String adminLoginQuery = "SELECT a FROM root.admins as a WHERE a.ADMIN_NAME='" + username.getText() +"'" +
+                " and a.ADMIN_PASSWORD='" + password.getText() + "'";
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
             if(Objects.requireNonNull(roleDropdown.getSelectedItem()).toString().equals("Seller")) {
                 rs = stmt.executeQuery(sellerLoginQuery);
