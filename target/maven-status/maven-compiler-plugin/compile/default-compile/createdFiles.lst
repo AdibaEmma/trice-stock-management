@@ -43,6 +43,7 @@ com\aweperi\stockmanagement\UpdateAdmin$7.class
 com\aweperi\stockmanagement\Login$6.class
 com\aweperi\stockmanagement\UpdateAdmin$2.class
 com\aweperi\stockmanagement\Category$3.class
+com\aweperi\stockmanagement\DatabaseConnection.class
 com\aweperi\stockmanagement\Products$13.class
 com\aweperi\stockmanagement\Products$5.class
 com\aweperi\stockmanagement\Seller$12.class
@@ -71,11 +72,12 @@ com\aweperi\stockmanagement\Seller$1.class
 com\aweperi\stockmanagement\Login.class
 com\aweperi\stockmanagement\Category$9.class
 com\aweperi\stockmanagement\Products$8.class
+com\aweperi\stockmanagement\Login$7.class
 com\aweperi\stockmanagement\UpdateAdmin$5.class
 com\aweperi\stockmanagement\Sales$3.class
 com\aweperi\stockmanagement\Login$4.class
-com\aweperi\stockmanagement\Seller$14.class
 com\aweperi\stockmanagement\Sales$16.class
+com\aweperi\stockmanagement\Sales$19.class
 com\aweperi\stockmanagement\StockManagement.class
 com\aweperi\stockmanagement\Category$12.class
 com\aweperi\stockmanagement\Sales.class

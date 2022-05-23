@@ -9,6 +9,7 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -395,7 +396,7 @@ public class Seller extends javax.swing.JFrame {
                 preparedStatement.setString(1, sellerName.getText());
                 preparedStatement.setString(2, sellerPassword.getText());
                 preparedStatement.setString(3, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
-                preparedStatement.setDate(4, null);
+                preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
                 int row = preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Seller Added Successfully");
                 System.out.println("Seller Added Successfully");

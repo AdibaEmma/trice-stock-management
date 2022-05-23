@@ -304,8 +304,8 @@ public class Products extends javax.swing.JFrame {
                         .addGap(155, 155, 155)
                         .addComponent(jLabel11))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(69, 69, 69)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -505,7 +505,7 @@ public class Products extends javax.swing.JFrame {
                 preparedStatement.setInt(2, Integer.parseInt(productQuantity.getText()));
                 preparedStatement.setInt(3, Integer.parseInt(productPrice.getText()));
                 preparedStatement.setString(4, Objects.requireNonNull(productCategory.getSelectedItem()).toString());
-                preparedStatement.setDate(5, null);
+                preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
                 int row = preparedStatement.executeUpdate();
                 clearFields();
