@@ -9,6 +9,8 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -20,6 +22,8 @@ public class Products extends javax.swing.JFrame {
     private Statement stmt = null;
     private ResultSet rs = null;
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
+    private int productId;
+
     public Products() {
         initComponents();
         selectProducts();
@@ -28,10 +32,9 @@ public class Products extends javax.swing.JFrame {
 
     public void selectProducts() {
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM ROOT.products");
+            rs = stmt.executeQuery("SELECT * FROM root.products");
 
             productsTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException ex) {
@@ -50,12 +53,11 @@ public class Products extends javax.swing.JFrame {
 
     private void getCategories() {
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM ROOT.CATEGORIES");
+            rs = stmt.executeQuery("SELECT * FROM root.CATEGORIES");
             while (rs.next()) {
-                String category = rs.getString("CAT_NAME");
+                String category = rs.getString("cat_name");
                 productCategory.addItem(category);
             }
         } catch (SQLException ex) {
@@ -72,7 +74,6 @@ public class Products extends javax.swing.JFrame {
     }
 
     private void clearFields() {
-        productId.setText("");
         productName.setText("");
         productQuantity.setText("");
         productPrice.setText("");
@@ -492,19 +493,19 @@ public class Products extends javax.swing.JFrame {
 
     private void addProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addProductMouseClicked
         try {
-            if(productId.getText().isEmpty() || productName.getText().isEmpty() || productQuantity.getText().isEmpty()
+            if(productName.getText().isEmpty() || productQuantity.getText().isEmpty()
                     || productPrice.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Add Missing Field");
                 System.out.println("Add Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO products values (?,?,?,?,?)");
-                preparedStatement.setInt(1, Integer.parseInt(productId.getText()));
-                preparedStatement.setString(2, productName.getText());
-                preparedStatement.setInt(3, Integer.parseInt(productQuantity.getText()));
-                preparedStatement.setInt(4, Integer.parseInt(productPrice.getText()));
-                preparedStatement.setString(5, Objects.requireNonNull(productCategory.getSelectedItem()).toString());
+                conn = databaseConnection.connect();
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO root.products(product_name,product_quantity,product_price, product_category, created_on) " +
+                        "values (?,?,?,?,?)");
+                preparedStatement.setString(1, productName.getText());
+                preparedStatement.setInt(2, Integer.parseInt(productQuantity.getText()));
+                preparedStatement.setInt(3, Integer.parseInt(productPrice.getText()));
+                preparedStatement.setString(4, Objects.requireNonNull(productCategory.getSelectedItem()).toString());
+                preparedStatement.setDate(5, null);
 
                 int row = preparedStatement.executeUpdate();
                 clearFields();
@@ -528,16 +529,15 @@ public class Products extends javax.swing.JFrame {
 
     private void editProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProductMouseClicked
         try {
-            if(productId.getText().isEmpty() || productName.getText().isEmpty() || productQuantity.getText().isEmpty()
+            if(productName.getText().isEmpty() || productQuantity.getText().isEmpty()
                     || productPrice.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Missing Field");
                 System.out.println("Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                String updateQuery = "UPDATE ROOT.products SET product_name ='" + productName.getText() +
+                conn = databaseConnection.connect();
+                String updateQuery = "UPDATE root.products SET product_name ='" + productName.getText() +
                         "'"+", product_quantity=" + productQuantity.getText() + "" + ", product_price=" + productPrice.getText() + "" +
-                        ", product_category='" + Objects.requireNonNull(productCategory.getSelectedItem()) + "'" + "where product_id=" + productId.getText();
+                        ", product_category='" + Objects.requireNonNull(productCategory.getSelectedItem()) + "'" + "where product_id=" + productId;
                 stmt = conn.createStatement();
                 stmt.executeUpdate(updateQuery);
                 clearFields();
@@ -554,13 +554,11 @@ public class Products extends javax.swing.JFrame {
 
     private void deleteProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteProductMouseClicked
         try {
-            if(productId.getText().isEmpty()) {
+            if(productName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Add Product To Be Deleted");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                String pId = productId.getText();
-                String deleteQuery = "DELETE FROM ROOT.products WHERE product_id = " + pId;
+                conn = databaseConnection.connect();
+                String deleteQuery = "DELETE FROM root.products as p WHERE p.product_id = " + productId;
                 stmt = conn.createStatement();
                 stmt.executeUpdate(deleteQuery);
                 this.clearFields();
@@ -587,7 +585,7 @@ public class Products extends javax.swing.JFrame {
     private void productsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTableMouseClicked
         DefaultTableModel model = (DefaultTableModel) productsTable.getModel();
         int index = productsTable.getSelectedRow();
-        productId.setText(model.getValueAt(index, 0).toString());
+        productId = Integer.parseInt(model.getValueAt(index, 0).toString());
         productName.setText(model.getValueAt(index, 1).toString());
         productQuantity.setText(model.getValueAt(index, 2).toString());
         productPrice.setText(model.getValueAt(index, 3).toString());

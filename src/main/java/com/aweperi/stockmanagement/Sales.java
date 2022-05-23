@@ -18,13 +18,6 @@ import java.util.Objects;
  * @author Emmanuel Adiba
  */
 public class Sales extends javax.swing.JFrame {
-
-    public Sales() {
-        initComponents();
-        selectProducts();
-        getCategories();
-    }
-
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -32,13 +25,18 @@ public class Sales extends javax.swing.JFrame {
     private Double grandTotal = 0.0;
     private Integer availableQuantity;
     private Integer productId;
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
+    public Sales() {
+        initComponents();
+        selectProducts();
+        getCategories();
+    }
 
     public void selectProducts() {
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM ROOT.products");
+            rs = stmt.executeQuery("SELECT * FROM root.products");
             productsTable.setModel(DbUtils.resultSetToTableModel(rs));
     } catch (SQLException ex) {
             ex.printStackTrace();
@@ -47,8 +45,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void getCategories() {
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM ROOT.CATEGORIES");
             while (rs.next()) {
@@ -483,21 +480,6 @@ public class Sales extends javax.swing.JFrame {
                 System.out.println("Not Enough In Stock");
             }
             else {
-//                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-//                    "root", "root");
-//                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO products values (?,?,?,?,?)");
-//                preparedStatement.setInt(1, Integer.parseInt(productId.getText()));
-//                preparedStatement.setString(2, productName.getText());
-//                preparedStatement.setInt(3, Integer.parseInt(productQuantity.getText()));
-//                preparedStatement.setInt(4, Integer.parseInt(productPrice.getText()));
-//                preparedStatement.setString(5, Objects.requireNonNull(productCategory.getSelectedItem()).toString());
-//
-//                int row = preparedStatement.executeUpdate();
-//                clearFields();
-//                JOptionPane.showMessageDialog(this, "Product Added Successfully");
-//                System.out.println("Product Added Successfully");
-//                conn.close();
-//                selectBillings();
                 i++;
                 Double totalPrice = price * Integer.parseInt(billProductQuantity.getText());
                 grandTotal = grandTotal + totalPrice;
@@ -525,20 +507,24 @@ public class Sales extends javax.swing.JFrame {
 
     private void update() throws SQLException {
         Integer remainingQuantity;
-        conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                "root", "root");
-        stmt = conn.createStatement();
-        rs = stmt.executeQuery("SELECT * FROM ROOT.products WHERE PRODUCT_ID=" +productId);
-        if (rs.next()) {
-        int currentQuantity = rs.getInt("PRODUCT_QUANTITY");
-            remainingQuantity = currentQuantity - Integer.parseInt(billProductQuantity.getText());
-            String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity + " WHERE product_id=" + productId;
+        try {
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            stmt.executeUpdate(updateQuery);
+            rs = stmt.executeQuery("SELECT * FROM root.products as p WHERE p.product_id=" +productId);
+            if (rs.next()) {
+                int currentQuantity = rs.getInt("PRODUCT_QUANTITY");
+                remainingQuantity = currentQuantity - Integer.parseInt(billProductQuantity.getText());
+                String updateQuery = "UPDATE ROOT.products SET product_quantity=" + remainingQuantity + " WHERE product_id=" + productId;
+                stmt = conn.createStatement();
+                stmt.executeUpdate(updateQuery);
+            }
+            selectProducts();
+            } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            stmt.close();
+            conn.close();
         }
-        stmt.close();
-        conn.close();
-        selectProducts();
     }
 
     private void addProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProductActionPerformed
@@ -599,8 +585,7 @@ public class Sales extends javax.swing.JFrame {
 
     private void filterProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterProductsMouseClicked
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                    "root", "root");
+            conn = databaseConnection.connect();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM ROOT.products WHERE PRODUCT_CATEGORY='" + Objects.requireNonNull(productCategory.getSelectedItem()) + "'");
             productsTable.setModel(DbUtils.resultSetToTableModel(rs));

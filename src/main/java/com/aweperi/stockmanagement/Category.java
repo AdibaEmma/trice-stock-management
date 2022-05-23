@@ -15,34 +15,38 @@ import java.sql.*;
  * @author Emmanuel Adiba
  */
 public class Category extends javax.swing.JFrame {
-
+    private Connection conn = null;
+    private Statement stmt = null;
+    private ResultSet rs = null;
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
+    private int catId;
 
-    /**
-     * Creates new form Category
-     */
+
     public Category() {
         initComponents();
         selectCategories();
     }
 
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-
     public void selectCategories() {
         try {
             conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM ROOT.categories");
+            rs = stmt.executeQuery("SELECT * FROM root.categories");
             categoriesTable.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void clearFields() {
-        catId.setText("");
         catName.setText("");
         catDescription.setText("");
     }
@@ -380,16 +384,14 @@ public class Category extends javax.swing.JFrame {
 
     private void addCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCategoryMouseClicked
         try {
-            if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
+            if(catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Add Missing Field");
                 System.out.println("Add Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO categories values (?,?,?)");
-                preparedStatement.setInt(1, Integer.parseInt(catId.getText()));
-                preparedStatement.setString(2, catName.getText());
-                preparedStatement.setString(3, catDescription.getText());
+                conn = databaseConnection.connect();
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO root.categories(cat_name,cat_desc) values(?,?)");
+                preparedStatement.setString(1, catName.getText());
+                preparedStatement.setString(2, catDescription.getText());
                 int row = preparedStatement.executeUpdate();
                 clearFields();
                 JOptionPane.showMessageDialog(this, "Category Added Successfully");
@@ -397,8 +399,8 @@ public class Category extends javax.swing.JFrame {
                 conn.close();
                 selectCategories();
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         } finally {
             try {
                 stmt.close();
@@ -412,14 +414,13 @@ public class Category extends javax.swing.JFrame {
 
     private void editCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editCategoryMouseClicked
         try {
-            if(catId.getText().isEmpty() || catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
+            if(catName.getText().isEmpty() || catDescription.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Missing Field");
                 System.out.println("Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                String updateQuery = "UPDATE ROOT.categories SET cat_name ='" + catName.getText() +
-                        "'"+",cat_desc='" + catDescription.getText() +"'" + " where cat_id=" + catId.getText();
+                conn = databaseConnection.connect();
+                String updateQuery = "UPDATE root.categories SET cat_name ='" + catName.getText() +
+                        "'"+",cat_desc='" + catDescription.getText() +"'" + " where cat_id=" + catId;
                 stmt = conn.createStatement();
                 stmt.executeUpdate(updateQuery);
                 clearFields();
@@ -429,7 +430,7 @@ public class Category extends javax.swing.JFrame {
                 selectCategories();
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         } finally {
             try {
                 stmt.close();
@@ -443,13 +444,11 @@ public class Category extends javax.swing.JFrame {
 
     private void deleteCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteCategoryMouseClicked
         try {
-            if(catId.getText().isEmpty()) {
+            if(catName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Add Category To Be Deleted");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                String cId = catId.getText();
-                String deleteQuery = "DELETE FROM ROOT.categories WHERE cat_id = " + cId;
+                conn = databaseConnection.connect();
+                String deleteQuery = "DELETE FROM root.categories as c WHERE c.cat_id = " + catId;
                 stmt = conn.createStatement();
                 stmt.executeUpdate(deleteQuery);
                 this.clearFields();
@@ -476,7 +475,7 @@ public class Category extends javax.swing.JFrame {
     private void categoriesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoriesTableMouseClicked
         DefaultTableModel model = (DefaultTableModel) categoriesTable.getModel();
         int index = categoriesTable.getSelectedRow();
-        catId.setText(model.getValueAt(index, 0).toString());
+        catId = Integer.parseInt(model.getValueAt(index, 0).toString());
         catName.setText(model.getValueAt(index, 1).toString());
         catDescription.setText(model.getValueAt(index, 2).toString());
     }//GEN-LAST:event_categoriesTableMouseClicked

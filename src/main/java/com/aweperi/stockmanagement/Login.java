@@ -6,6 +6,7 @@ package com.aweperi.stockmanagement;
 
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -332,6 +333,9 @@ public class Login extends javax.swing.JFrame {
             if(Objects.requireNonNull(roleDropdown.getSelectedItem()).toString().equals("Seller")) {
                 rs = stmt.executeQuery(sellerLoginQuery);
                 if (rs.next()) {
+                    String updateQuery = "UPDATE root.sellers SET last_login ='" + Timestamp.valueOf(LocalDateTime.now()) + "'" + "where seller_name='" + username.getText() +"'";
+                    stmt = conn.createStatement();
+                    stmt.executeUpdate(updateQuery);
                     new Sales().setVisible(true);
                     this.dispose();
                 } else {

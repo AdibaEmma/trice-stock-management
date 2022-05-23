@@ -369,7 +369,7 @@ public class Seller extends javax.swing.JFrame {
         try {
             conn = databaseConnection.connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT s FROM root.sellers as s");
+            rs = stmt.executeQuery("SELECT * FROM root.sellers");
             sellersTable.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -394,10 +394,12 @@ public class Seller extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Missing Field");
                 System.out.println("Missing field");
             } else {
-                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO root.sellers values (?,?,?,?)");
-                preparedStatement.setString(2, sellerName.getText());
-                preparedStatement.setString(3, sellerPassword.getText());
-                preparedStatement.setString(4, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
+                PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO root.sellers(seller_name, seller_password, " +
+                        "seller_gender, created_on) values (?,?,?,?)");
+                preparedStatement.setString(1, sellerName.getText());
+                preparedStatement.setString(2, sellerPassword.getText());
+                preparedStatement.setString(3, Objects.requireNonNull(sellerGender.getSelectedItem()).toString());
+                preparedStatement.setDate(4, null);
                 int row = preparedStatement.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Seller Added Successfully");
                 System.out.println("Seller Added Successfully");
@@ -423,8 +425,7 @@ public class Seller extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Missing Field");
                 System.out.println("Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
+                conn = databaseConnection.connect();
                 String updateQuery = "UPDATE root.sellers SET seller_name ='" + sellerName.getText() +
                         "'"+",seller_password='" + sellerPassword.getText() +"'"+", seller_gender='" +
                         Objects.requireNonNull(sellerGender.getSelectedItem()) + "'" + " where seller_id=" + sellerId;

@@ -12,10 +12,9 @@ import java.sql.*;
  * @author Emmanuel Adiba
  */
 public class UpdateAdmin extends javax.swing.JFrame {
-
-    /**
-     * Creates new form UpdateAdmin
-     */
+    private Connection conn = null;
+    private Statement stmt = null;
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
     public UpdateAdmin() {
         initComponents();
     }
@@ -24,10 +23,6 @@ public class UpdateAdmin extends javax.swing.JFrame {
         adminName.setText("");
         adminPassword.setText("");
     }
-
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,9 +204,8 @@ public class UpdateAdmin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Missing Field");
                 System.out.println("Missing field");
             } else {
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/triceStockDB",
-                        "root", "root");
-                String updateQuery = "UPDATE ROOT.admins SET admin_name ='" + adminName.getText() +
+                conn = databaseConnection.connect();
+                String updateQuery = "UPDATE root.admins SET admin_name ='" + adminName.getText() +
                         "'"+",admin_password='" + adminPassword.getText() +"'" + " where admin_id=" +1;
                 stmt = conn.createStatement();
                 stmt.executeUpdate(updateQuery);

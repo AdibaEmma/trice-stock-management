@@ -443,3 +443,22 @@ Database Class Loader started - derby.database.classpath=''
 Mon May 23 15:48:07 UTC 2022:
 Shutting down instance 6ede40af-0180-f14b-c108-ffff88f1f0d1 on database directory C:\Users\User\OneDrive\Documents\NetBeansProjects\stockManagement\src\db\triceStockDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2cdf8d8a 
 Mon May 23 15:48:07 UTC 2022 Thread[DRDAConnThread_3,5,main] (DATABASE = triceStockDB), (DRDAID = {9}), Database 'triceStockDB' shutdown.
+----------------------------------------------------------------
+Mon May 23 17:45:48 UTC 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 597e80e5-0180-f14b-c108-ffff88f1f0d1 
+on database directory C:\Users\User\OneDrive\Documents\NetBeansProjects\stockManagement\src\db\triceStockDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2cdf8d8a 
+Loaded from file:/C:/Program%20Files/Java/jdk-11.0.15.1/db-derby-10.14.2.0-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=11.0.15.1+2-LTS-10
+user.dir=C:\Program Files\Java\jdk-11.0.15.1\db-derby-10.14.2.0-bin
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\User\OneDrive\Documents\NetBeansProjects\stockManagement\src\db
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon May 23 19:28:20 UTC 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Mon May 23 19:28:20 UTC 2022:
+Shutting down instance 597e80e5-0180-f14b-c108-ffff88f1f0d1 on database directory C:\Users\User\OneDrive\Documents\NetBeansProjects\stockManagement\src\db\triceStockDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2cdf8d8a 
+----------------------------------------------------------------
