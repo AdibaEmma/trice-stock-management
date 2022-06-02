@@ -8,6 +8,7 @@ import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.MalformedURLException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -606,7 +607,11 @@ public class Products extends javax.swing.JFrame {
     }//GEN-LAST:event_categoriesLinkMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         this.dispose();
     }//GEN-LAST:event_logoutBtnMouseClicked
 

@@ -8,7 +8,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <exec.mainClass>com.aweperi.stockmanagement.StockManagement</exec.mainClass>
+        <exec.mainClass>com.aweperi.stockmanagement.Splash</exec.mainClass>
     </properties>
     <name>StockManagement</name>
     <dependencies>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>1.18.24</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

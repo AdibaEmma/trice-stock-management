@@ -5,6 +5,9 @@
 package com.aweperi.stockmanagement;
 
 import javax.swing.*;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,7 +20,7 @@ public class Login extends javax.swing.JFrame {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    public Login() {
+    public Login() throws MalformedURLException {
         initComponents();
         password.setText("");
     }
@@ -56,7 +59,15 @@ public class Login extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\OneDrive\\Documents\\NetBeansProjects\\stockManagement\\src\\main\\java\\com\\aweperi\\stockmanagement\\images\\icons8-stock-100.png")); // NOI18N
+
+        File resource = new File("C:\\Users\\User\\OneDrive\\Documents\\NetBeansProjects\\stockManagement\\src\\main\\java\\com\\aweperi\\stockmanagement\\images\\icons8-stock-100.png");
+        URL url = null;
+        try {
+            url = resource.toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        jLabel6.setIcon(new javax.swing.ImageIcon(url)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -416,7 +427,11 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    new Login().setVisible(true);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

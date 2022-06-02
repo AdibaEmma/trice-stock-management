@@ -4,6 +4,10 @@
  */
 package com.aweperi.stockmanagement;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  *
  * @author Emmanuel Adiba
@@ -13,7 +17,7 @@ public class Splash extends javax.swing.JFrame {
     /**
      * Creates new form Splash
      */
-    public Splash() {
+    public Splash() throws MalformedURLException {
         initComponents();
     }
 
@@ -24,7 +28,7 @@ public class Splash extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws MalformedURLException {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -48,7 +52,10 @@ public class Splash extends javax.swing.JFrame {
         progressPercent.setText("%");
         progressPercent.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\OneDrive\\Documents\\NetBeansProjects\\stockManagement\\src\\main\\java\\com\\aweperi\\stockmanagement\\images\\icons8-shopping-cart-80.png")); // NOI18N
+        File resource = new File("C:\\Users\\User\\OneDrive\\Documents\\NetBeansProjects\\stockManagement\\src\\main\\java\\com\\aweperi\\stockmanagement\\images\\icons8-shopping-cart-80.png");
+        // convert to file URL
+        URL url = resource.toURI().toURL();
+        jLabel3.setIcon(new javax.swing.ImageIcon(url)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,7 +109,7 @@ public class Splash extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) throws MalformedURLException {
         var splash = new Splash();
         splash.setVisible(true);
         try {
