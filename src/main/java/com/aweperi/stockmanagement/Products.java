@@ -305,8 +305,8 @@ public class Products extends javax.swing.JFrame {
                         .addGap(155, 155, 155)
                         .addComponent(jLabel11))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -476,10 +476,6 @@ public class Products extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_productQuantityActionPerformed
 
-    private void productPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_productPriceActionPerformed
-
     private void addProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProductActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addProductActionPerformed
@@ -504,7 +500,7 @@ public class Products extends javax.swing.JFrame {
                         "values (?,?,?,?,?)");
                 preparedStatement.setString(1, productName.getText());
                 preparedStatement.setInt(2, Integer.parseInt(productQuantity.getText()));
-                preparedStatement.setInt(3, Integer.parseInt(productPrice.getText()));
+                preparedStatement.setFloat(3, Float.parseFloat(productPrice.getText()));
                 preparedStatement.setString(4, Objects.requireNonNull(productCategory.getSelectedItem()).toString());
                 preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
@@ -618,6 +614,10 @@ public class Products extends javax.swing.JFrame {
     private void updateAdminLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateAdminLinkMouseClicked
         new UpdateAdmin().setVisible(true);
     }//GEN-LAST:event_updateAdminLinkMouseClicked
+
+    private void productPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productPriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productPriceActionPerformed
 
     /**
      * @param args the command line arguments
